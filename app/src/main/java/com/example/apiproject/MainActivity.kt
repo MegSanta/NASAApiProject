@@ -8,6 +8,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestParams
 import okhttp3.Headers
@@ -19,11 +22,16 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 
 class MainActivity : AppCompatActivity() {
     //Define imageURL as a null string
-    var imageURL: String? = null
+    private var imageURL: String? = null
+    private lateinit var picList: MutableList<List<Any>>
+    private lateinit var recyclerViewPics: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        recyclerViewPics = findViewById<RecyclerView>(R.id.picture_recycler_view)
+        picList = mutableListOf<List<Any>>() //list of photo URLs
 
         val API_search_button = findViewById<Button>(R.id.search_button)
         val app_reset_button = findViewById<Button>(R.id.reset_button)
@@ -66,20 +74,54 @@ class MainActivity : AppCompatActivity() {
         val params = RequestParams()
 
         params["earth_date"] = picDate
-        client["https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=$picDate&api_key=36iraEY8DMOJQM3FKZYymlVrNG5PCNLLXhd9kP4h", params, object :
+        client["https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=$picDate&api_key=redacted", params, object :
             JsonHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Headers, json: JsonHttpResponseHandler.JSON) {
                 // called when response HTTP status is "200 OK"
                 Log.d("API", "response successful for $picDate")
                 val photos = json.jsonObject.getJSONArray("photos")
                 if (photos.length() > 0) {
-                    val first_photo = photos.getJSONObject(0)
-                    var httpImageURL = first_photo.getString("img_src")
-                    val charToAdd = 's'
-                    val indexToAddAt = 4
-                    imageURL = httpImageURL.substring(0, indexToAddAt) + charToAdd + httpImageURL.substring(indexToAddAt)
+                    val photo_array_len = photos.length()
+                    Log.d("photos", "there are $photo_array_len photos in this request")
+                    var len = photos.length()
+                    //only allow app to load the first 15 pictures
+                    if (len > 15){
+                        len = 15
+                    }
+                    for (i in 0 until len){
+                        val current_photo = photos.getJSONObject(i)
+                        var httpImageURL = current_photo.getString("img_src")
+                        val charToAdd = 's'
+                        val indexToAddAt = 4
+                        val currentImageURL = httpImageURL.substring(0, indexToAddAt) + charToAdd + httpImageURL.substring(indexToAddAt)
+                        Log.d("URL", currentImageURL)
+                        val id = current_photo.getInt("id").toString()
+                        Log.d("id", id)
+                        val camera_object = current_photo.getJSONObject("camera")
+                        val camera_name = camera_object.getString("name")
+                        Log.d("cameraName", camera_name)
+                        val current_photo_list = listOf(currentImageURL, id, camera_name)
+                        Log.d("photoList", current_photo_list.size.toString())
+                        //picList.add(currentImageURL)
+                        picList.add(current_photo_list)
+
+                    }
+                    Log.d("listSize", picList.size.toString())
+
+                    val adapter = PictureAdapter(picList)
+                    recyclerViewPics.adapter = adapter
+                    recyclerViewPics.layoutManager = LinearLayoutManager(this@MainActivity)
+                    recyclerViewPics.addItemDecoration(DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL))
+                    findViewById<Button>(R.id.reset_button).visibility = View.VISIBLE
+                    findViewById<Button>(R.id.search_button).visibility = View.GONE
+                    findViewById<RecyclerView>(R.id.picture_recycler_view).visibility = View.VISIBLE
+                    //val first_photo = photos.getJSONObject(0)
+                    //var httpImageURL = first_photo.getString("img_src")
+                    //val charToAdd = 's'
+                    //val indexToAddAt = 4
+                    //imageURL = httpImageURL.substring(0, indexToAddAt) + charToAdd + httpImageURL.substring(indexToAddAt)
                     //showToast(imageURL)
-                    get_pic()
+                    //get_pic()
 
                 } else {
                     Log.d("API", "No photos for this date")
@@ -101,23 +143,20 @@ class MainActivity : AppCompatActivity() {
                 Log.d("API", "response failure")
             }
         }]
-        Log.d("find_pic", "This is the returned URL $imageURL")
+        //Log.d("find_pic", "This is the returned URL $imageURL")
     }
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun reset_app() {
-        val photoImageView: ImageView = findViewById<ImageView>(R.id.photo)
-        Glide.with(this)
-            .load(R.drawable.ic_launcher_foreground)
-            .fitCenter()
-            .into(photoImageView)
-        findViewById<ImageView>(R.id.photo).visibility = View.GONE
+        findViewById<RecyclerView>(R.id.picture_recycler_view).visibility = View.GONE
+        //findViewById<ImageView>(R.id.photo).visibility = View.GONE
         findViewById<Button>(R.id.reset_button).visibility = View.GONE
         findViewById<Button>(R.id.search_button).visibility = View.VISIBLE
         findViewById<EditText>(R.id.editTextDate).text.clear()
-        imageURL = null
+        picList.clear()
+        //imageURL = null
     }
 
 
