@@ -2,8 +2,25 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.APIProject" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:fontFamily">@font/aldrich</item>
+        <item name="android:buttonStyle">@style/MyButtonStyle</item>
     </style>
 
     <style name="Theme.APIProject" parent="Base.Theme.APIProject" />
+
+    <style name="TextAppearance.Title" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textSize">20sp</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+
+    <style name="MyButtonStyle" parent="Widget.AppCompat.Button">
+        <!-- Customize the action bar background color -->
+        <item name="android:background">@color/orange</item>
+        <item name="android:backgroundTint">@color/orange</item>
+        <item name="android:textColor">@color/black</item>
+
+    </style>
+
+
 </resources>

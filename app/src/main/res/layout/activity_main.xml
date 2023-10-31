@@ -7,22 +7,35 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textTitleMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="Rover Picture Search"
+        android:textAppearance = "@style/TextAppearance.Title"
+        app:layout_constraintBottom_toTopOf="@id/textTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Search curiosity rover photo by entering a date between 2011-11-26 and 2023-10-22"
+        android:layout_marginStart="50dp"
         app:layout_constraintBottom_toTopOf="@id/editTextDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/textTitleMain" />
 
     <EditText
         android:id="@+id/editTextDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="date"
         android:hint="yyyy-mm-dd"
+        android:inputType="date"
         app:layout_constraintBottom_toTopOf="@id/search_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,11 +45,14 @@
         android:id="@+id/search_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:backgroundTint="@color/orange"
+        android:fontFamily="@font/aldrich"
         android:text="Search"
         app:layout_constraintBottom_toTopOf="@id/picture_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextDate"/>
+        app:layout_constraintTop_toBottomOf="@id/editTextDate"
+        style="@style/MyButtonStyle"/>
 
     <Button
         android:id="@+id/reset_button"
@@ -45,10 +61,12 @@
         android:text="Reset"
         android:layout_marginTop="150dp"
         android:visibility="gone"
+        app:backgroundTint="@color/orange"
         app:layout_constraintBottom_toTopOf="@id/picture_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextDate" />
+        app:layout_constraintTop_toBottomOf="@id/editTextDate"
+        style="@style/MyButtonStyle"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/picture_recycler_view"
