@@ -1,10 +1,10 @@
 <!-- (This is a comment) INSTRUCTIONS: Go through this page and fill out any **bolded** entries with their correct values.-->
 
-# AND101 Project 6 - CYOAPI Part 2: RecyclerView Edition
+# AND101 Project 7 - CYOAPI Part 3: Beautified
 
 Submitted by: **Megan Santagata**
 
-Time spent: **3** hours spent in total
+Time spent: **5** hours spent in total
 
 ## Summary
 
@@ -21,12 +21,13 @@ The following REQUIRED features are completed:
 - [X] Make an API call to an API of your choice using AsyncHTTPClient
 - [X] Implement a RecyclerView to display a list of entries from the API
 - [X] Display at least three (3) pieces of data for each RecyclerView item
+- [X] Use a downloadable font with custom color and size
+- [X] Modify the theme of the app in `themes.xml`
+- [X] Define and apply at least one style in **either** `themes.xml` or a new file `styles.xml`
 
 The following STRETCH features are implemented:
 
 - [X] Add a UI element for the user to interact with API further
-- [ ] Show a `Toast` or `Snackbar` when an item is clicked
-- [ ] Add item dividers with `DividerItemDecoration`
 
 The following EXTRA features are implemented:
 
@@ -36,7 +37,7 @@ The following EXTRA features are implemented:
 
 Here's a video / GIF that demos all of the app's implemented features:
 
-<img src='./AND101P6.gif' title='Video Demo' width='' alt='Video Demo' />
+<img src='./AND101P7.gif' title='Video Demo' width='' alt='Video Demo' />
 
 GIF created with **ScreenToGif**
 
@@ -47,7 +48,7 @@ GIF created with **ScreenToGif**
 
 ## Notes
 
-Here's a place for any other notes on the app, it's creation process, or what you learned this unit!
+In this unit I made a functional app from scratch on Andriod Studio. I learned how to use recycler views, API's, and styles to change the appearance of the app.
 
 ## License
 
